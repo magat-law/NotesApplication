@@ -47,20 +47,6 @@ public class NoteController {
 		return "notes/index";
 	}
 	
-	@GetMapping("/get")
-	public ResponseEntity<Set<Note>> getAllNotes() {
-		try {
-			Set<Note> notes = noteRepository.getAllNotes();
-			if(notes.isEmpty()) {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			} else {
-				return new ResponseEntity<>(notes, HttpStatus.OK);
-			}
-		} catch(Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-	
 	@GetMapping("/get/{id}")
 	public ResponseEntity<Note> getNoteById(@PathVariable int id) {
 		Note note = noteRepository.getNoteById(id);
@@ -88,7 +74,7 @@ public class NoteController {
 		if(result.hasErrors()) {
 			return "notes/CreateNote";
 		}
-		newNote.setId(noteRepository.getAllNotes().size() + 1);
+
 		noteRepository.addNote(newNote);
 		return "redirect:/notes";
 	}
@@ -111,8 +97,8 @@ public class NoteController {
 		return "notes/UpdateNote";
 	}
 	
-	@PostMapping("/update")
-	public String updateNote(Model model, @RequestParam int id, @Valid @ModelAttribute Note newNote, BindingResult result) {
+	@PutMapping("/update")
+	public String updateNote(Model model, @RequestParam int id, @RequestParam String title, @RequestParam String content, @Valid @ModelAttribute Note newNote, BindingResult result) {
 		
 		if(ObjectUtils.isEmpty(newNote.getContent()) && ObjectUtils.isEmpty(newNote.getTitle())) {
 			result.addError(new FieldError("note", "Content/Title", "Content/Title should not be null"));
@@ -126,8 +112,6 @@ public class NoteController {
 		model.addAttribute(newNote);
 		return "redirect:/notes";
 	}
-	
-
 	
 	@DeleteMapping("/delete")
 	public String deleteNote(@RequestParam int id) {

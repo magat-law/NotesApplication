@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.ObjectUtils;
 
 import com.main.notes.model.*;
 
@@ -14,15 +15,25 @@ public class NoteRepository {
 	Note note;
 
 	private Set<Note> notes = new HashSet<Note>();
+	private int currentId = 0;
 	
 	public void populateNotes() {
 		for(int index = 1 ; index <= 5 ; index++) {
 			Note note = new Note();
-			note.setId(index);
+			incrementId();
+			note.setId(currentId);
 			note.setTitle("Test Title " + index);
 			note.setContent("Test Content " + index);
 			notes.add(note);
 		}
+	}
+	
+	public int getCurrentId() {
+		return currentId;
+	}
+	
+	public void incrementId() {
+		currentId++;
 	}
 	
 	public Set<Note> getAllNotes() {
@@ -36,6 +47,10 @@ public class NoteRepository {
 	}
 	
 	public boolean addNote(Note note) {
+		if(ObjectUtils.isEmpty(note.getId())  || note.getId() == 0) {
+			note.setId(getCurrentId() + 1);
+			incrementId();
+		}
 		return notes.add(note);
 	}
 	
