@@ -15,12 +15,13 @@
     	<div class="row">
     		<div class="col-md-8 mx-auto rounded border p-4 m-4">
     			<h2 class="text-center mb-5">New Note</h2>
-    			<form method="post" th:object="${note}">
+    			
+    			<form th:method="put" method="put" th:object="${note}" th:action="@{/notes/update(id=${note.id})}">
     			
     				<div class="row mb-3">
     					<label class="col-sm-4 col-form-label">Title</label>
     					<div class="col-sm-8">
-    						<input readonly class="form-control-plaintext" th:value="${note.id}">
+    						<input readonly class="form-control-plaintext" th:field=${note.id} th:value="${note.id}">
     					</div>
     				</div>
     			
