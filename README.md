@@ -31,10 +31,10 @@ Deletes a note by id
 Updates a note by id
 
 ## Functionalities
-*Show all Notes - Shows all notes that is stored
-*Create Notes - Create a new note.
-*Update Notes - Update an existing note
-*Delete Notes - Delete a note
+* Show all Notes - Shows all notes that is stored
+* Create Notes - Create a new note.
+* Update Notes - Update an existing note
+* Delete Notes - Delete a note
 
 ## Disclaimer
 Notes data are currently processed as a Set list.
